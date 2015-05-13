@@ -12,11 +12,11 @@ module FuzzyRecord
           break if self.respond_to?(field)
         end
       end
-      self.select{ |record| search.map{|k,v| record.send(k) =~ v}.inject(:|)}
+      self.select{ |record| search.map{|k,v| record.send(k) =~ /v/i}.inject(:|)}
     end
     private
     def generalize(str)
-      return /.*#{str.gsub(/[^a-zA-Z&0-9]/, "").chars.to_a.join(".*")}.*/i
+      return ".*#{str.gsub(/[^a-zA-Z&0-9]/, "").chars.to_a.join(".*")}.*"
     end
   end
 end
