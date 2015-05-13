@@ -18,7 +18,7 @@ class FuzzyRecord::FuzzySearcher
   def create_search
     return @args if @args.is_a? Hash
     [:fuzzy_name, :ident, :name].each do |field|
-      return {field => args} if @class.instance_methods.include?(field)
+      return {field => @args} if @class.instance_methods.include?(field)
     end
   end
 end
