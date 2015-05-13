@@ -11,7 +11,7 @@ class FuzzyRecord::FuzzySearcher
   private
   def generalize(str) ".*#{str.gsub(/[^a-zA-Z&0-9]/, "").chars.to_a.join(".*")}.*" end
   def ave(arry) arry.sum.to_f / arry.length end
-  def matches?(record,k,v) record.send(k) =~ /#{generalize(v)}/i end
+  def matches?(record,k,v) !!(record.send(k) =~ /#{generalize(v)}/i) end
   def sorter(record) ave(@search.map{|k,v| record.send(k) ^ v}) end
   def include_record(record) @search.map{|k,v| matches?(record,k,v)}.inject(:|) end
 
