@@ -12,7 +12,7 @@ module FuzzyRecord
           break if self.respond_to?(field)
         end
       end
-      self.select{ |record| search.map{|k,v| matches?(record,k,v)}.inject(:|)}.sort_by{|record| sorter(record)}
+      self.select{ |record| search.map{|k,v| matches?(record,k,v)}.inject(:|)}.sort_by{|record| sorter(search,record)}
     end
     private
     def generalize(str)
@@ -24,7 +24,7 @@ module FuzzyRecord
     def matches?(record,k,v)
       record.send(k) =~ /#{generalize(v)}/i
     end
-    def sorter(record)
+    def sorter(search,record)
       ave(search.map{|k,v| record.send(k) ^ v})
     end
   end
