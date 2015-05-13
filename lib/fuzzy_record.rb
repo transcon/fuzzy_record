@@ -10,6 +10,7 @@ module FuzzyRecord
           search = {field => args}
           break if self.respond_to?(field)
         end
+      end
       self.select{ |record| search.map{|k,v| record.send(k) =~ v}.inject(:|)}
     end
     private
