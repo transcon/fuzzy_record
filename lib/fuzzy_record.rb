@@ -1,6 +1,7 @@
 require "fuzzy_record/version"
 
 module FuzzyRecord
+  extend ActiveSupport::Concern
   module ClassMethods
     def fuzzy_search(args)
       if args.is_a? Hash
