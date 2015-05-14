@@ -1,5 +1,7 @@
 require "fuzzy_record/version"
 require "fuzzy_record/fuzzy_searcher"
+require "active_record"
+require "fuzzy_string"
 module FuzzyRecord
   extend ActiveSupport::Concern
   module ClassMethods
