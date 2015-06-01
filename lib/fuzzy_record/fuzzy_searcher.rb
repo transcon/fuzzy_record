@@ -9,10 +9,10 @@ class FuzzyRecord::FuzzySearcher
     @class.all.select{ |record| include_record(record)}.sort_by{|record| sorter(record)}
   end
   private
-  def generalize(str) ".*#{str.gsub(/[^a-zA-Z&0-9]/, "").chars.to_a.join(".*")}.*" end
-  def ave(arry) arry.sum.to_f / arry.length end
-  def matches?(record,k,v) !!(record.send(k).to_s =~ /#{generalize(v)}/i) end
-  def sorter(record) ave(@search.map{|k,v| record.send(k).to_s ^ v}) end
+  def generalize(str)        ".*#{str.gsub(/[^a-zA-Z&0-9]/, "").chars.to_a.join(".*")}.*" rescue(nil) end
+  def ave(arry)              arry.sum.to_f / arry.length end
+  def matches?(record,k,v)   !!(record.send(k) == v || record.send(k).to_s =~ /#{generalize(v)}/i) end
+  def sorter(record)         ave(@search.map{|k,v| (record.send(k).to_s ^ v rescue(0))}) end
   def include_record(record) @search.map{|k,v| matches?(record,k,v)}.inject(:&) end
 
   def create_search
