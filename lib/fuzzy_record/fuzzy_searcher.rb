@@ -1,12 +1,13 @@
 class FuzzyRecord::FuzzySearcher
   def self.find(klass,args) new(klass,args).find end
   def initialize(klass,args)
-    @class  = klass
-    @args   = args
-    @search = create_search
+    @class   = klass
+    @records = @class.all
+    @args    = args
+    @search  = create_search
   end
   def find
-    @class.all.select{ |record| include_record(record)}.sort_by{|record| sorter(record)}
+    @records.select{ |record| include_record(record)}.sort_by{|record| sorter(record)}
   end
   private
   def generalize(str)        ".*#{str.gsub(/[^a-zA-Z&0-9]/, "").chars.to_a.join(".*")}.*" rescue(nil) end
@@ -18,7 +19,7 @@ class FuzzyRecord::FuzzySearcher
   def create_search
     return @args if @args.is_a? Hash
     [:fuzzy_name, :ident, :name].each do |field|
-      return {field => @args} if @class.instance_methods.include?(field)
+      return {field => @args} if @class.method_defined?(field)
     end
   end
 end
