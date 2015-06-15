@@ -19,7 +19,7 @@ class FuzzyRecord::FuzzySearcher
   def create_search
     return @args if @args.is_a? Hash
     [:fuzzy_name, :ident, :name].each do |field|
-      return {field => @args} if @class.method_defined?(field)
+      return {field => @args} if @class.attribute_method?(field)
     end
   end
 end
