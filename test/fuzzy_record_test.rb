@@ -50,4 +50,3 @@ class FuzzyRecordTest < TestCase
     FlyingTable.destroy(:multiple_name_test_tables)
   end
 end
-  
